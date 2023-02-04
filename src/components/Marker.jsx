@@ -13,12 +13,10 @@ const Marker = ({ data }) => {
   const [showMarkers, setShowMarkers] = useState(false);
 
   const getLocation = async (wh) => {
-    const directions = [];
-    wh.map((l) => {
-      const { address } = l;
-      directions.push(address);
-    });
     const coordsData = [];
+    let directions = wh.map((l) => {
+      return l.address;
+    });
     for (let index = 0; index < directions.length; index++) {
       const coords = await getLocationCoords(directions[index]);
       coordsData.push(coords);
@@ -29,11 +27,13 @@ const Marker = ({ data }) => {
   useEffect(() => {
     async function run() {
       let warehouses = await getWarehouses();
-      let locationCords = await getLocation(warehouses);
+      await getLocation(warehouses);
     }
 
-    run();
-  }, []);
+    if (Object.values(data).length < 1) {
+      run();
+    }
+  }, [data]);
 
   return (
     <div>

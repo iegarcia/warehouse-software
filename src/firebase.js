@@ -22,17 +22,14 @@ export const storeData = async (collection, data) => {
 };
 
 export const getWarehouses = async () => {
-  let data = [];
-  let results = [];
+  let docs = [];
   const querySnapshot = await getDocs(collection(db, "warehouses"));
   querySnapshot.forEach((doc) => {
-    data.push(doc.data());
+    docs.push(doc.data());
   });
-  data.map((d) => {
-    const { data } = d;
-    results.push(data);
+  let results = docs.map((d) => {
+    return d.data;
   });
-
   return results;
 };
 

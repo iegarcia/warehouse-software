@@ -28,13 +28,17 @@ const Home = () => {
     const btnSpinner = document.getElementById("deleteLoading");
     btnDelete.style = "display: none";
     btnSpinner.style = "display: unset";
-    await deleteWarehouse(code);
-    btnSpinner.style = "display: none";
-    btnDelete.style = "display: unset";
-    handleClose();
-    fireModal("success", "Warehouse added successfully");
-    const newData = await getWarehouses();
-    setGridData(newData);
+    try {
+      await deleteWarehouse(code);
+      btnSpinner.style = "display: none";
+      btnDelete.style = "display: unset";
+      handleClose();
+      fireModal("success", "Warehouse remove successfully");
+      const newData = await getWarehouses();
+      setGridData(newData);
+    } catch (error) {
+      fireModal("error", "Oops something went wrong :( !");
+    }
   };
 
   const showModal = (id) => {
@@ -62,7 +66,7 @@ const Home = () => {
       setGridData(warehouses);
     }
     run();
-  }, []);
+  }, [user.uid]);
 
   return (
     <div>

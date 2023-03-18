@@ -1,8 +1,14 @@
 export function errorMessage(code) {
   let message = "";
   switch (code) {
-    case "auth/invalid-email" || "auth/user-not-found" || "auth/wrong-password":
+    case "auth/invalid-email" || "auth/wrong-password":
       message = "Wrong user or password";
+      break;
+    case "auth/wrong-password":
+      message = "Wrong user or password";
+      break;
+    case "auth/user-not-found":
+      message = "User does not exist";
       break;
     case "auth/email-already-in-use":
       message = "This email is already registered. Try sign in!";

@@ -2,21 +2,28 @@ import { Container, Nav, Navbar } from "react-bootstrap";
 import { useAuth } from "../context/AuthContext";
 
 const AppNavbar = () => {
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
 
   const handleLogout = async () => {
     await logout();
   };
 
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar bg="light" expand="lg" id="navbar">
       <Container>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="#" onClick={handleLogout}>
-              Logout
-            </Nav.Link>
+            {!user ? (
+              <>
+                <Nav.Link href="/login">Login</Nav.Link>
+                <Nav.Link href="/register">Register</Nav.Link>
+              </>
+            ) : (
+              <Nav.Link href="#" onClick={handleLogout}>
+                Logout
+              </Nav.Link>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>

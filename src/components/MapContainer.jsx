@@ -15,12 +15,12 @@ const MapContainer = () => {
       <h3>Nearest warehouse calculation</h3>
       <div>
         <label htmlFor="location">Address</label>
-        <input type="text" name="location" id="location" />
+        <br />
+        <input type="text" name="location" id="location" className="mb-4" />
         <button type="button" onClick={() => handleSubmit()}>
           Go!
         </button>
         <div id="mapContainer">
-          <br />
           {value !== undefined ? (
             <Map content={value} />
           ) : (

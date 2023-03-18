@@ -1,70 +1,57 @@
-# Getting Started with Create React App
+# Warehouse Software
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este proyecto contempla la obtención de un listado de depósitos con la posibilidad de ubicarlos en un mapa de Google
 
-## Available Scripts
+## Instrucciones
 
-In the project directory, you can run:
+Para correr el proyecto tenes que usar
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Antes de levantar el proyecto tenes que obtener las apis correspondientes para que el proyecto funcione correctamente, las mismas son:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **Api key de Google maps** -> (Inicializar proyecto en GCP, dar de alta el SDK de Maps, obtener credencial)
+- **Geocode API** -> (Registrate en [Position Stack](https://positionstack.com))
+- **Open Route Token** -> (Registrate en [Open Route Service](https://openrouteservice.org/) y crea un token)
 
-### `npm test`
+También vas a necesitar los siguientes servicios de **Firebase**
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Auth**
+- **Firestore**
+- **Storage**
 
-### `npm run build`
+Y listo el proyecto debería estar corriendo, no te preocupes si no tenes datos cargados en Firestore el proyecto cuenta con un ABM para que cargues los que consideres necesarios.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Tecnologias
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **HTML/CSS**
+- **JavaScript**
+- **Axios**
+- **Firebase (Auth, Firestore, Storage)**
+- **React**
+- **React Router DOM**
+- **React Bootstrap**
+- **React Google maps**
+- **Open Route Service**
+- **Dotenv**
+- **Sweet Alert**
+- **Bootswatch**
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Funcionalidades
 
-### `npm run eject`
+- ABM de depósitos
+- Grilla de depósitos
+- Subida y descarga de CSV
+- Redirección y confirmación a la HomePage
+- Login / Logout / Signup
+- Perfiles de sesión (si el usuario no es admin, no puede acceder a la funcionalidad del mapa)
+- Pantallas de carga para hacer más ameno el tiempo de espera al obtener la información
+- Manejo de errores en caso de falla de los servicios
+- Funcionalidad de mapa
+- Validacion usuario logueado
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+La funcionalidad del mapa abarca
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Ubica la dirección solicitada en el mapa
+- Ubicación de los 3 depósitos más cercanos marcados con un número con base en su cercanía
+- Ruta marcada en el mapa al más cercano (Si haces clic sobre la línea, te abre un modal con el detalle de las calles)

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Alert } from "react-bootstrap";
-import Map from "./Map";
+import { Alert, Button } from "react-bootstrap";
+import Map from "./Map/Map";
 
 const MapContainer = () => {
   const [value, setValue] = useState();
@@ -14,23 +14,32 @@ const MapContainer = () => {
     <div>
       <h3>Nearest warehouse calculation</h3>
       <div>
-        <label htmlFor="location">Address</label>
-        <br />
-        <input type="text" name="location" id="location" className="mb-4" />
-        <button type="button" onClick={() => handleSubmit()}>
+        <label htmlFor="location" className="form-label">
+          Address
+        </label>
+
+        <input
+          type="text"
+          name="location"
+          id="location"
+          className="form-control mb-4"
+          placeholder="Fake Street 123"
+        />
+        <Button variant="success" onClick={() => handleSubmit()}>
           Go!
-        </button>
-        <div id="mapContainer">
-          {value !== undefined ? (
-            <Map content={value} />
-          ) : (
-            <Alert variant="info">
-              <span className="text-light">
-                Insert an address to check nearest warehouses
-              </span>
-            </Alert>
-          )}
-        </div>
+        </Button>
+      </div>
+
+      <div id="mapContainer">
+        {value !== undefined ? (
+          <Map content={value} />
+        ) : (
+          <Alert variant="info" className="mt-4">
+            <span className="text-light">
+              Insert an address to check nearest warehouses
+            </span>
+          </Alert>
+        )}
       </div>
     </div>
   );

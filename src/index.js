@@ -4,19 +4,11 @@ import "./index.css";
 import App from "./App";
 import "./firebaseConfig";
 import "bootswatch/dist/morph/bootstrap.min.css";
-import Loading from "./components/Loading";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
 root.render(
   <React.StrictMode>
-    <Loading />
+    <App />
   </React.StrictMode>
 );
-
-setTimeout(() => {
-  root.render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  );
-}, 1000);

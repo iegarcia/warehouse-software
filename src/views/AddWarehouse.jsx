@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { Button, Form } from "react-bootstrap";
 import { fireModal } from "../functions";
-import { getDbData, storeData, storeFile } from "../firebase";
+import { getDbData as getWhData, storeData, storeFile } from "../firebase";
 
 const AddWarehouse = ({ editar }) => {
   const initialState = {
@@ -23,7 +23,7 @@ const AddWarehouse = ({ editar }) => {
   const location = useLocation();
 
   const getDetails = async (id) => {
-    const whDetails = await getDbData("warehouses", id);
+    const whDetails = await getWhData("warehouses", id);
     return whDetails.data;
   };
 

@@ -26,6 +26,7 @@ const Register = () => {
     setError("");
     try {
       await signup(user.email, user.password);
+      sessionStorage.setItem("user", user.email);
       navigate("/");
     } catch (error) {
       const message = errorMessage(error.code);
@@ -40,7 +41,7 @@ const Register = () => {
         <br />
         {error && <Alert variant={"danger"}>{error} </Alert>}
 
-        <Form className="d-flex login-form" onSubmit={handleSubmit}>
+        <Form className="d-flex auth-form" onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="formGroupEmail">
             <Form.Control
               type="email"

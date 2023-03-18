@@ -1,26 +1,25 @@
 import { GoogleMap, MarkerF } from "@react-google-maps/api";
-import { useEffect, useState } from "react";
-import { getWarehouses } from "../firebase";
+import { useCallback, useEffect, useState } from "react";
+import { getWarehouses } from "../../firebase";
 import {
   filterDistances,
   fireModal,
   getDistance,
   getLocationCoords,
-} from "../functions";
+} from "../../functions";
 import ClosestRoute from "./ClosestRoute";
 import LoadingModal from "./LoadingModal";
 
-import one from "../assets/one.ico";
-import two from "../assets/two.ico";
-import three from "../assets/three.ico";
+import one from "../../assets/one.ico";
+import two from "../../assets/two.ico";
+import three from "../../assets/three.ico";
 
 const modalContent = "getting warehouses, obtaining closer locations";
+const icons = [one, two, three];
 const Marker = ({ data }) => {
   const [whCoords, setWhCoords] = useState([]);
   const [closest, setClosest] = useState({});
   const [modalShow, setModalShow] = useState(false);
-
-  const icons = [one, two, three];
 
   const getLocation = async (wh) => {
     const coordsData = [];
@@ -36,32 +35,34 @@ const Marker = ({ data }) => {
 
   const handleShow = () => setModalShow(true);
 
-  const getNearest = async (coords) => {
-    let nearest = null;
-    const distanceInfo = await getDistance(data, coords);
-    // const distanceInfo = "";
+  const getNearest = useCallback(
+    async (coords) => {
+      let nearest = null;
+      const distanceInfo = await getDistance(data, coords);
 
-    if (distanceInfo !== "") {
-      const { destinations, distances } = distanceInfo;
-      nearest = filterDistances(destinations, distances);
-      delete nearest[0];
+      if (distanceInfo !== "") {
+        const { destinations, distances } = distanceInfo;
+        nearest = filterDistances(destinations, distances);
+        delete nearest[0];
 
-      const arrayData = Object.values(nearest);
-      arrayData.map((d, idx) => (d.icon = icons[idx]));
-      setWhCoords(arrayData);
-      const closestWarehouse = arrayData.reduce((min, current) => {
-        return current.distance < min.distance ? current : min;
-      });
-      setClosest(closestWarehouse);
-      setModalShow(false);
-    } else {
-      setModalShow(false);
-      fireModal(
-        "error",
-        "Sorry the server and I had a fight, so he didn't give me the information. Try reloading the page!"
-      );
-    }
-  };
+        const arrayData = Object.values(nearest);
+        arrayData.map((d, idx) => (d.icon = icons[idx]));
+        setWhCoords(arrayData);
+        const closestWarehouse = arrayData.reduce((min, current) => {
+          return current.distance < min.distance ? current : min;
+        });
+        setClosest(closestWarehouse);
+        setModalShow(false);
+      } else {
+        setModalShow(false);
+        fireModal(
+          "error",
+          "Sorry the server and I had a fight, so he didn't give me the information. Try reloading the page!"
+        );
+      }
+    },
+    [data, setWhCoords, setClosest, setModalShow]
+  );
 
   useEffect(() => {
     async function run() {
@@ -72,7 +73,7 @@ const Marker = ({ data }) => {
     }
 
     run();
-  }, []);
+  }, [getNearest]);
 
   return (
     <div>

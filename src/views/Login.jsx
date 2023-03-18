@@ -23,8 +23,10 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+
     try {
       await login(user.email, user.password);
+      sessionStorage.setItem("user", user.email);
       navigate("/");
     } catch (error) {
       const message = errorMessage(error.code);
@@ -39,7 +41,7 @@ const Login = () => {
         <h2>Login</h2>
         <br />
         {error && <Alert variant={"danger"}>{error} </Alert>}
-        <Form className="d-flex login-form" onSubmit={handleSubmit}>
+        <Form className="d-flex auth-form" onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="formGroupEmail">
             <Form.Control
               type="email"

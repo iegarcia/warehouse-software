@@ -1,6 +1,6 @@
 import { useLoadScript } from "@react-google-maps/api";
 import Marker from "./Marker";
-import { getLocationCoords } from "../functions";
+import { getLocationCoords } from "../../functions";
 import { useEffect, useState } from "react";
 import { Alert, Spinner } from "react-bootstrap";
 

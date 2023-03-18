@@ -5,7 +5,11 @@ import MapContainer from "../components/MapContainer";
 import { useAuth } from "../context/AuthContext";
 
 import { fireModal } from "../functions";
-import { deleteWarehouse, getDbData, getWarehouses } from "../firebase";
+import {
+  deleteWarehouse,
+  getDbData as getUserData,
+  getWarehouses,
+} from "../firebase";
 
 const Home = () => {
   const [gridData, setGridData] = useState([]);
@@ -48,7 +52,7 @@ const Home = () => {
       const nearestLocation = document.getElementById("nearest-location");
 
       const warehouses = await getWarehouses();
-      const userData = await getDbData("users", user.uid);
+      const userData = await getUserData("users", user.uid);
 
       if (userData.data.role !== ADMIN_ROLE) {
         nearestLocation.style = "display: none";
@@ -66,20 +70,28 @@ const Home = () => {
 
   return (
     <div>
-      <Spinner
-        animation="border"
-        role="status"
-        style={{ display: hidden ? "inline-block" : "none" }}
-      >
-        <span className="visually-hidden">Loading...</span>
-      </Spinner>
+      <div className="d-flex text-light spinner-container mt-4">
+        <Spinner
+          className="mt-4 spinner-size"
+          animation="border"
+          role="status"
+          variant="light"
+          style={{
+            display: hidden ? "inline-block" : "none",
+          }}
+        />
+        <h3 style={{ display: hidden ? "inline-block" : "none" }}>
+          Loading data, please wait.
+        </h3>
+      </div>
+
       <div id="whGrid" style={{ display: "none" }}>
-        <br />
         <a href="/add">
-          <Button variant="success">New</Button>
+          <Button variant="success" className="mb-4">
+            New
+          </Button>
         </a>
-        <br />
-        <br />
+
         <Table striped bordered hover>
           <thead>
             <tr>
@@ -157,8 +169,7 @@ const Home = () => {
             })}
           </tbody>
         </Table>
-        <br />
-        <br />
+
         <div id="nearest-location" className="mb-5">
           <MapContainer />
         </div>

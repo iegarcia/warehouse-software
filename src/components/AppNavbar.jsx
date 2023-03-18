@@ -6,6 +6,8 @@ const AppNavbar = () => {
 
   const handleLogout = async () => {
     await logout();
+    window.location.reload();
+    sessionStorage.clear();
   };
 
   return (

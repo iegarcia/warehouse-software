@@ -2,8 +2,8 @@ import { Container, Nav, Navbar } from "react-bootstrap";
 import { useAuth } from "../context/AuthContext";
 
 const AppNavbar = () => {
-  const { logout, user } = useAuth();
-
+  const { logout } = useAuth();
+  const user = sessionStorage.getItem("user");
   const handleLogout = async () => {
     await logout();
     window.location.reload();

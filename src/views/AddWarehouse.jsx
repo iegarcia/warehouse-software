@@ -4,10 +4,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
 import { fireModal } from "../functions";
 import { getDbData as getWhData, storeData, storeFile } from "../firebase";
+import LoadingModal from "../components/LoadingModal";
 
 const AddWarehouse = ({ editar }) => {
   const initialState = {
-    code: "",
+    code: Date.now().toString(),
     name: "",
     address: "",
     state: "",
@@ -18,6 +19,7 @@ const AddWarehouse = ({ editar }) => {
 
   const [warehouse, setWarehouse] = useState(initialState);
   const [product, setProduct] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -46,11 +48,12 @@ const AddWarehouse = ({ editar }) => {
 
   const handlerSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const url = await storeFile(warehouse["name"], product);
       setWarehouse((warehouse["products"] = url));
       await storeData("warehouses", warehouse);
-
+      setLoading(false);
       fireModal("success", "Warehouse added successfully");
       navigate("/");
     } catch (e) {
@@ -82,8 +85,7 @@ const AddWarehouse = ({ editar }) => {
                 type="text"
                 value={warehouse.code}
                 placeholder="XXXX"
-                onChange={handlerChange}
-                required
+                disabled
               />
             </Form.Group>
             <Form.Group>
@@ -161,6 +163,7 @@ const AddWarehouse = ({ editar }) => {
           Save
         </Button>
       </Form>
+      <LoadingModal show={loading} text={"Uploading warehouse, please wait."} />
     </div>
   );
 };

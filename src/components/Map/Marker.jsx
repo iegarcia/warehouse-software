@@ -8,7 +8,7 @@ import {
   getLocationCoords,
 } from "../../functions";
 import ClosestRoute from "./ClosestRoute";
-import LoadingModal from "./LoadingModal";
+import LoadingModal from "../LoadingModal";
 
 import one from "../../assets/one.ico";
 import two from "../../assets/two.ico";
@@ -43,16 +43,21 @@ const Marker = ({ data }) => {
       if (distanceInfo !== "") {
         const { destinations, distances } = distanceInfo;
         nearest = filterDistances(destinations, distances);
-        delete nearest[0];
 
         const arrayData = Object.values(nearest);
-        arrayData.map((d, idx) => (d.icon = icons[idx]));
-        setWhCoords(arrayData);
-        const closestWarehouse = arrayData.reduce((min, current) => {
-          return current.distance < min.distance ? current : min;
-        });
-        setClosest(closestWarehouse);
-        setModalShow(false);
+        if (arrayData.length > 1) {
+          delete nearest[0];
+          arrayData.map((d, idx) => (d.icon = icons[idx]));
+          setWhCoords(arrayData);
+          const closestWarehouse = arrayData.reduce((min, current) => {
+            return current.distance < min.distance ? current : min;
+          });
+          setClosest(closestWarehouse);
+          setModalShow(false);
+        } else {
+          fireModal("info", "No warehouse nearest address provided");
+          setModalShow(false);
+        }
       } else {
         setModalShow(false);
         fireModal(

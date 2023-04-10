@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import { buildRoute } from "../../functions";
 import DirectionsModal from "./DirectionsModal";
-import LoadingModal from "./LoadingModal";
+import LoadingModal from "../LoadingModal";
 
 const ClosestRoute = ({ start, end }) => {
   const [route, setRoute] = useState([]);

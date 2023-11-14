@@ -52,12 +52,13 @@ const Home = () => {
       const nearestLocation = document.getElementById("nearest-location");
 
       const warehouses = await getWarehouses();
-      const userData = await getUserData("users", user.uid);
-
-      if (userData.data.role !== ADMIN_ROLE) {
-        nearestLocation.style = "display: none";
-      } else {
-        nearestLocation.style = "display: block";
+      if (user) {
+        const userData = await getUserData("users", user.uid);
+        if (userData.data.role !== ADMIN_ROLE) {
+          nearestLocation.style = "display: none";
+        } else {
+          nearestLocation.style = "display: block";
+        }
       }
 
       whGrid.style = "display: unset";
@@ -98,7 +99,7 @@ const Home = () => {
               <th>Code</th>
               <th>Name</th>
               <th>Address</th>
-              <th>State</th>
+              <th>District</th>
               <th>Country</th>
               <th>Zip</th>
               <th>Products</th>

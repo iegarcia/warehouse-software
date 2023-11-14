@@ -24,12 +24,22 @@ const Marker = ({ data }) => {
   const getLocation = async (wh) => {
     const coordsData = [];
     let directions = wh.map((l) => {
-      return l.address;
+      return `${l.address}, ${l.state}`;
     });
+
     for (let index = 0; index < directions.length; index++) {
-      const coords = await getLocationCoords(directions[index]);
-      coordsData.push(coords);
+      try {
+        const coords = await getLocationCoords(directions[index]);
+        coordsData.push(coords);
+      } catch (error) {
+        console.error(error.message);
+        // coordsData.push(null); // O maneja el error de alguna otra manera
+      }
+
+      // Agrega un retraso de 2 segundos entre las solicitudes
+      await new Promise((resolve) => setTimeout(resolve, 2500));
     }
+
     return coordsData;
   };
 
@@ -37,33 +47,38 @@ const Marker = ({ data }) => {
 
   const getNearest = useCallback(
     async (coords) => {
-      let nearest = null;
-      const distanceInfo = await getDistance(data, coords);
+      try {
+        const distanceInfo = await getDistance(data, coords);
 
-      if (distanceInfo !== "") {
-        const { destinations, distances } = distanceInfo;
-        nearest = filterDistances(destinations, distances);
+        if (distanceInfo) {
+          const { destinations, distances } = distanceInfo;
 
-        const arrayData = Object.values(nearest);
-        if (arrayData.length > 1) {
-          delete nearest[0];
-          arrayData.map((d, idx) => (d.icon = icons[idx]));
-          setWhCoords(arrayData);
-          const closestWarehouse = arrayData.reduce((min, current) => {
-            return current.distance < min.distance ? current : min;
-          });
-          setClosest(closestWarehouse);
-          setModalShow(false);
+          const nearest = filterDistances(destinations, distances);
+          const arrayData = Object.values(nearest);
+          if (arrayData.length > 1) {
+            arrayData.shift();
+            arrayData.forEach((d, idx) => (d.icon = icons[idx]));
+
+            const closestWarehouse = arrayData.reduce((min, current) =>
+              current.distance < min.distance ? current : min
+            );
+
+            setWhCoords(arrayData);
+            setClosest(closestWarehouse);
+            setModalShow(false);
+          } else {
+            fireModal("info", "No warehouse nearest address provided");
+            setModalShow(false);
+          }
         } else {
-          fireModal("info", "No warehouse nearest address provided");
           setModalShow(false);
+          fireModal(
+            "error",
+            "Sorry the server and I had a fight, so he didn't give me the information. Try reloading the page!"
+          );
         }
-      } else {
-        setModalShow(false);
-        fireModal(
-          "error",
-          "Sorry the server and I had a fight, so he didn't give me the information. Try reloading the page!"
-        );
+      } catch (error) {
+        console.error("An error occurred:", error);
       }
     },
     [data, setWhCoords, setClosest, setModalShow]
@@ -88,6 +103,7 @@ const Marker = ({ data }) => {
         mapContainerStyle={{ width: "100%", height: "50vh" }}
       >
         <MarkerF position={data} />
+
         {whCoords.map((wh, idx) => {
           return (
             <MarkerF

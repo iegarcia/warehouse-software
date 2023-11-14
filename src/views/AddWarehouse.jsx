@@ -113,9 +113,9 @@ const AddWarehouse = ({ editar }) => {
           </div>
           <div className="col-md-6">
             <Form.Group>
-              <Form.Label>State</Form.Label>
+              <Form.Label>District</Form.Label>
               <Form.Control
-                name="state"
+                name="district"
                 type="text"
                 value={warehouse.state}
                 placeholder="New York"

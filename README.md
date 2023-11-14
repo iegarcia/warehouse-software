@@ -4,15 +4,15 @@ Este proyecto contempla la obtención de un listado de depósitos con la posibil
 
 ## Instrucciones
 
-Para correr el proyecto tenes que usar
+Para correr el proyecto tenés que usar
 
 ### `npm start`
 
-Antes de levantar el proyecto tenes que obtener las apis correspondientes para que el proyecto funcione correctamente, las mismas son:
+Antes de levantar el proyecto tenés que obtener las APIs correspondientes para que el proyecto funcione correctamente, las mismas son:
 
-- **Api key de Google maps** -> (Inicializar proyecto en GCP, dar de alta el SDK de Maps, obtener credencial)
-- **Geocode API** -> (Registrate en [Position Stack](https://positionstack.com))
-- **Open Route Token** -> (Registrate en [Open Route Service](https://openrouteservice.org/) y crea un token)
+- **Api key de Google Maps** -> (Inicializar proyecto en GCP, dar de alta el SDK de Maps, obtener credencial)
+- **Geocode API** -> (Regístrate en [Location IQ](https://es.locationiq.com/))
+- **Open Route Token** -> (Regístrate en [Open Route Service](https://openrouteservice.org/) y crea un token)
 
 También vas a necesitar los siguientes servicios de **Firebase**
 
@@ -20,9 +20,9 @@ También vas a necesitar los siguientes servicios de **Firebase**
 - **Firestore**
 - **Storage**
 
-Y listo el proyecto debería estar corriendo, no te preocupes si no tenes datos cargados en Firestore el proyecto cuenta con un ABM para que cargues los que consideres necesarios.
+Y listo el proyecto debería estar corriendo, no te preocupes, si no tenés datos cargados en Firestore el proyecto cuenta con un ABM para que cargues los que consideres necesarios.
 
-## Tecnologias
+## Tecnologías
 
 - **HTML/CSS**
 - **JavaScript**
@@ -42,13 +42,13 @@ Y listo el proyecto debería estar corriendo, no te preocupes si no tenes datos 
 - ABM de depósitos
 - Grilla de depósitos
 - Subida y descarga de CSV
-- Redirección y confirmación a la HomePage
+- Redirección y confirmación a la Homepage
 - Login / Logout / Signup
 - Perfiles de sesión (si el usuario no es admin, no puede acceder a la funcionalidad del mapa)
 - Pantallas de carga para hacer más ameno el tiempo de espera al obtener la información
 - Manejo de errores en caso de falla de los servicios
 - Funcionalidad de mapa
-- Validacion usuario logueado
+- Validación usuario logueado
 
 La funcionalidad del mapa abarca
 

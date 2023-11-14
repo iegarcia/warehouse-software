@@ -3,18 +3,18 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 export const getLocationCoords = async (place) => {
-  const response = await axios.get(`http://api.positionstack.com/v1/forward`, {
-    params: {
-      access_key: process.env.REACT_APP_GEOCODE_KEY,
-      query: place,
-      limit: 1,
-    },
-  });
-  const { latitude, longitude } = response.data.data[0];
+  //Codificar nombre para ebitar errores
+  const encodedPlace = encodeURIComponent(place);
+
+  const response = await axios.get(
+    `https://us1.locationiq.com/v1/search?key=${process.env.REACT_APP_GEOCODE_KEY}&q=${encodedPlace}&limit=1&format=json`
+  );
+
   const locationData = {
-    lng: longitude,
-    lat: latitude,
+    lng: parseFloat(response.data[0].lon),
+    lat: parseFloat(response.data[0].lat),
   };
+
   return locationData;
 };
 
@@ -77,8 +77,9 @@ export const fireModal = (icon, message) => {
 
 export const filterDistances = (destinations, distances) => {
   let nearestWarehouses = {};
-  const maxDistance = 5000;
+  const maxDistance = 5000; //Distancia maxima
 
+  //Filtrar resultados y obtener los menores a la distancia maxima
   for (let i = 0; i < destinations.length; i++) {
     for (let j = 0; j < distances[0].length; j++) {
       if (distances[i] != undefined && distances[i][j] < maxDistance) {

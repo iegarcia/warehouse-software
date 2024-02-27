@@ -1,24 +1,19 @@
 import { useEffect, useState } from "react";
-import { Button, Modal, Spinner, Table } from "react-bootstrap";
+import { Button, Form, Modal, Spinner, Table } from "react-bootstrap";
 
 import MapContainer from "../components/MapContainer";
-import { useAuth } from "../context/AuthContext";
 
 import { fireModal } from "../functions";
-import {
-  deleteWarehouse,
-  getDbData as getUserData,
-  getWarehouses,
-} from "../firebase";
+import { deleteWarehouse, getWarehouses } from "../firebase";
 
 const Home = () => {
   const [gridData, setGridData] = useState([]);
   const [hidden, setHidden] = useState(true);
   const [code, setCode] = useState("");
   const [show, setShow] = useState(false);
+  const [checked, setChecked] = useState(true);
 
-  const { user } = useAuth();
-  const ADMIN_ROLE = 0;
+  // const { user } = useAuth();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -52,14 +47,14 @@ const Home = () => {
       const nearestLocation = document.getElementById("nearest-location");
 
       const warehouses = await getWarehouses();
-      if (user) {
-        const userData = await getUserData("users", user.uid);
-        if (userData.data.role !== ADMIN_ROLE) {
-          nearestLocation.style = "display: none";
-        } else {
-          nearestLocation.style = "display: block";
-        }
+      // if (user) {
+      //   const userData = await getUserData("users", user.uid);
+      if (!checked) {
+        nearestLocation.style = "display: none";
+      } else {
+        nearestLocation.style = "display: block";
       }
+      // }
 
       whGrid.style = "display: unset";
       setHidden(false);
@@ -67,7 +62,7 @@ const Home = () => {
       setGridData(warehouses);
     }
     run();
-  }, [user]);
+  }, [checked]);
 
   return (
     <div>
@@ -85,8 +80,18 @@ const Home = () => {
           Loading data, please wait.
         </h3>
       </div>
-
       <div id="whGrid" style={{ display: "none" }}>
+        <Form>
+          <Form.Check
+            type="switch"
+            id="custom-switch"
+            label="Manager view"
+            className="text-dark"
+            onChange={(e) => setChecked(e.target.checked)}
+            checked={checked}
+          />
+        </Form>
+        <br />
         <a href="/add">
           <Button variant="success" className="mb-4">
             New
@@ -170,8 +175,10 @@ const Home = () => {
             })}
           </tbody>
         </Table>
-
         <div id="nearest-location" className="mb-5">
+          <br />
+          <hr className="border border-1 border-dark" />
+          <br />
           <MapContainer />
         </div>
       </div>

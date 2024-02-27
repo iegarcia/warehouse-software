@@ -32,7 +32,11 @@ const MapContainer = () => {
         </span>{" "}
         <br />
         <br />
-        <Button variant="success" onClick={() => handleSubmit()}>
+        <Button
+          className="mb-3"
+          variant="success"
+          onClick={() => handleSubmit()}
+        >
           Go!
         </Button>
       </div>
